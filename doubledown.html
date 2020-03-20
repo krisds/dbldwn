@@ -1,0 +1,630 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DoubleDown</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Caladea&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Overpass+Mono&display=swap">
+  <link rel="stylesheet" href="./web/css/reset.css">
+  <link rel="stylesheet" href="./web/css/dbldwn.css">
+</head>
+<body>
+  <ul>
+    <li><span><a href="#doubledown">DoubleDown</a></span><ul>
+      <li><span><a href="#philosophy">Philosophy</a></span></li>
+      <li><span><a href="#blocks">Blocks</a></span></li>
+      <li><span><a href="#block-types">Block types</a></span><ul>
+        <li><span><a href="#paragraphs">Paragraphs</a></span></li>
+        <li><span><a href="#headings">Headings</a></span></li>
+        <li><span><a href="#ordered-lists">Ordered lists</a></span></li>
+        <li><span><a href="#numbered-lists">Numbered lists</a></span></li>
+        <li><span><a href="#tables">Tables</a></span></li>
+        <li><span><a href="#dictionaries">Dictionaries</a></span></li>
+        <li><span><a href="#verbatim">Verbatim</a></span></li>
+        <li><span><a href="#comments">Comments</a></span></li>
+        <li><span><a href="#horizontal-rule">Horizontal rule</a></span></li>
+      </ul></li>
+      <li><span><a href="#inline-elements">Inline elements</a></span><ul>
+        <li><span><a href="#emphasis">Emphasis</a></span></li>
+        <li><span><a href="#strikethrough">Strikethrough</a></span></li>
+        <li><span><a href="#placeholders">Placeholders</a></span></li>
+        <li><span><a href="#selections">Selections</a></span></li>
+      </ul></li>
+      <li><span><a href="#slots">Slots</a></span><ul>
+        <li><span><a href="#slots-and-tables">Slots and tables</a></span><ul>
+          <li><span><a href="#multipe-lines-in-tables">Multipe lines in tables</a></span></li>
+          <li><span><a href="#lists-in-tables">Lists in tables</a></span></li>
+          <li><span><a href="#tables-in-tables">Tables in tables</a></span></li>
+        </ul></li>
+      </ul></li>
+      <li><span><a href="#macros">Macros</a></span><ul>
+        <li><span><a href="#syntax">Syntax</a></span></li>
+        <li><span><a href="#scope">Scope</a></span></li>
+        <li><span><a href="#including-other-doubledown-files">Including other DoubleDown files</a></span></li>
+        <li><span><a href="#macro-modules">Macro modules</a></span></li>
+      </ul></li>
+      <li><span><a href="#escaping-characters">Escaping characters</a></span></li>
+    </ul></li>
+  </ul>
+  <img src="logo.svg" style="width: 50%"></img>
+  <h1><a id="doubledown"></a>DoubleDown</h1>
+  <definition><p>DoubleDown aims to be a simple, structured and extensible, plain-text
+markup language.</p></definition>
+  <p><b>Note:</b> This document is itself written using DoubleDown;
+you can <a href="doubledown.dbl.txt">see the source for it here</a>.</p>
+  <h2><a id="philosophy"></a>Philosophy</h2>
+  <p>There would be no DoubleDown without <a href="https://daringfireball.net/projects/markdown/">John Gruber's Markdown</a>
+lighting the way. Markdown's syntax allows writing machine-processable
+documents, while still remaining readable. Indeed, that philosophy is
+clearly stated by John up-front:</p>
+  <quote><p>The overriding design goal for Markdown's formatting syntax is to make
+it as readable as possible. The idea is that a Markdown-formatted
+document should be publishable as-is, as plain text, without looking
+like it's been marked up with tags or formatting instructions.</p></quote>
+  <p>As great as Markdown is, there are times when its design gets in the way of
+what you want to do. Maybe you want some conditional text. Maybe you need a
+special kind of paragraph; a sidebar for instance. Maybe you want to include
+some comments which should not show up in the final output. Maybe you want to
+do citations and have a bibliography at the end. Or a table-of-contents at the
+start.</p>
+  <p>Yes, you can fix most everything by including raw HTML in a Markdown document.
+But if HTML is anything, readable is not high on its list of attributes. And so
+it detracts from Markdown's overriding design goal.</p>
+  <p>In addition, HTML may not be the type of output we want. If you want to write
+a paper, or a book, you're most likely targeting PDF instead.</p>
+  <p>So here I offer DoubleDown as an alternative. It tries to stick to Markdown's
+overall design goal of readability, retaining some of its best ideas, while
+also balancing some extra constraints:<ul>
+    <li><span>Have only one way to do any one thing.</span></li>
+    <li><span>Do not tie any of its syntax to a specific output format.</span></li>
+    <li><span>Make it possible/easy to add in useful extensions.</span></li>
+  </ul></p>
+  <h2><a id="blocks"></a>Blocks</h2>
+  <p>DoubleDown documents are made up of discrete blocks of text. The first and
+foremost thing to understand about DoubleDown's syntax is precisely what makes
+up an individual block.</p>
+  <definition><p>A block is a sequence of one or more lines.
+Any two lines in a document are part of the same block, <b>unless</b>:</p><ul>
+    <li><span>they are <i>separated by a blank line</i>, or</span></li>
+    <li><span>they are <i>indented differently</i>.</span></li>
+  </ul></definition>
+  <p>The idea of using blank lines to separate blocks of text comes straight from
+Markdown, and it's a great one. It makes for a very readable raw document.</p>
+  <p>The idea of using indentation to separate blocks, however, is not a Markdown
+concept. The inspiration here comes from programming languages like Python.
+It is known as the <a href="https://en.wikipedia.org/wiki/Off-side_rule">off-side rule</a>, and it adds a hierarchical
+structure to blocks, which will let us do some creative things while keeping
+the actual text readable.</p>
+  <p>The logical tree structure will, of course, match the tree structure as it
+visually appears in the document. That is, blocks are ordered as found in the
+document. So if one block appears before another in the text, then it will
+precede that block in the tree. If one block is indented below another in the
+text then it will appear as descendent of that block in the tree.</p>
+  <definition><p>The parent of any block is the closest preceding block whose indentation is
+lower than the current one. If no such block exists then the block is a
+"root" block.</p></definition>
+  <p>For example:</p>
+  <code><pre>The quick
+  brown fox
+    jumped over
+  the lazy
+    dog.</pre></code>
+  <p>The hierarchy for this would match:</p>
+  <result><ul>
+    <li><span>The quick</span><ul>
+      <li><span>brown fox</span><ul>
+        <li><span>jumped over</span></li>
+      </ul></li>
+      <li><span>the lazy</span><ul>
+        <li><span>dog.</span></li>
+      </ul></li>
+    </ul></li>
+  </ul></result>
+  <h2><a id="block-types"></a>Block types</h2>
+  <p>DoubleDown blocks get categorized into one of different types, the most basic
+of which is just a chunk of text, or "paragraph". But there also headings,
+lists, tables, and others.</p>
+  <p>Any block should be of only one kind. So you should not mix a list into a
+heading, for instance. Keep separate things in separate blocks. While this may
+sound (overly ?) restrictive, it helps readability, simplifies the formatting
+rules, and just makes processing DoubleDown documents easier.</p>
+  <h3><a id="paragraphs"></a>Paragraphs</h3>
+  <p>When a block is not recognized as any specific type, it gets marked as being a
+paragraph. This is just a generic block of text, and is what makes up most
+documents (including this one).</p>
+  <h3><a id="headings"></a>Headings</h3>
+  <p>A block which starts with a sequence of one or more hash characters (<inline-code>#</inline-code>),
+followed by whitespace, is considered a heading. For example:</p>
+  <code><pre># This is a top-level heading
+
+## This is a sub-heading
+
+########## What level heading are we at ?</pre></code>
+  <p>It is ok to split the heading over multiple lines, if that's more convenient.</p>
+  <code><pre># The nucleotide sequence of a 3.2 kb segment of mitochondrial maxicircle
+DNA from Crithidia fasciculata containing the gene for cytochrome oxidase
+subunit III, the N-terminal part of the apocytochrome b gene and a
+possible frameshift gene; further evidence for the use of unusual
+initiator triplets in trypanosome mitochondria</pre></code>
+  <h3><a id="ordered-lists"></a>Ordered lists</h3>
+  <p>A block where the first line starts with an asterisk (<inline-code>*</inline-code>), followed by
+whitespace, is considered a list. Each further line which starts in the same
+way adds another item to the list. For example:</p>
+  <code><pre>* Once upon a midnight dreary,
+* while I pondered,
+weak and weary,
+* Over many a quaint
+and curious volume
+of forgotten lore</pre></code>
+  <p>Becomes:</p>
+  <result><ul>
+    <li><span>Once upon a midnight dreary,</span></li>
+    <li><span>while I pondered,
+weak and weary,</span></li>
+    <li><span>Over many a quaint
+and curious volume
+of forgotten lore</span></li>
+  </ul></result>
+  <p>When one list block follows another at the same level of indentation, they are
+considered to be part of the same list. For example:</p>
+  <code><pre>* Once upon a midnight dreary,
+
+* while I pondered,
+weak and weary,
+
+* Over many a quaint
+and curious volume
+of forgotten lore</pre></code>
+  <p>Despite being three distinct list blocks, DoubleDown will treat this as just a
+single list. This is needed for doing nested lists. For example:</p>
+  <code><pre>* Fruit
+    * Apples
+    * Oranges
+* Vegetables
+    * Tomatoes
+    * Carrots</pre></code>
+  <p>Becomes:</p>
+  <result><ul>
+    <li><span>Fruit</span><ul>
+      <li><span>Apples</span></li>
+      <li><span>Oranges</span></li>
+    </ul></li>
+    <li><span>Vegetables</span><ul>
+      <li><span>Tomatoes</span></li>
+      <li><span>Carrots</span></li>
+    </ul></li>
+  </ul></result>
+  <p>This also allows for lists with more elaborate content in their items. For
+example:</p>
+  <code><pre>* Lorem Ipsum
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    commodo consequat.
+* Fibonacci
+    [code javascript]
+        &gt; function fibonacci(n) {
+        &gt;     if (n &lt;= 1) return 1;
+        &gt;     return fibonacci(n - 1) + fibonacci(n - 2);
+        &gt; }</pre></code>
+  <p>Becomes:</p>
+  <result><ul>
+    <li><span>Lorem Ipsum</span><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+commodo consequat.</p></li>
+    <li><span>Fibonacci</span><code><pre>function fibonacci(n) {
+    if (n &lt;= 1) return 1;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}</pre></code></li>
+  </ul></result>
+  <h3><a id="numbered-lists"></a>Numbered lists</h3>
+  <p>A block where each line starts with a number, followed by a period (<inline-code>.</inline-code>), and
+again followed by whitespace, is considered a numbered list. Each further line
+which starts in the same way adds another item to the list. For example:</p>
+  <code><pre>1. Once upon a midnight dreary,
+2. while I pondered,
+weak and weary,
+3. Over many a quaint
+and curious volume
+of forgotten lore</pre></code>
+  <p>Becomes:</p>
+  <result><ol>
+    <li><span>Once upon a midnight dreary,</span></li>
+    <li><span>while I pondered,
+weak and weary,</span></li>
+    <li><span>Over many a quaint
+and curious volume
+of forgotten lore</span></li>
+  </ol></result>
+  <p>List numbers need not be in order, sequential, or even unique. So the following
+example will give the exact same result.</p>
+  <code><pre>0. Once upon a midnight dreary,
+0. while I pondered,
+weak and weary,
+0. Over many a quaint
+and curious volume
+of forgotten lore</pre></code>
+  <p>When one numbered list block follows another at the same level of indentation,
+they are considered to be part of the same list. For example:</p>
+  <code><pre>1. Once upon a midnight dreary,
+
+2. while I pondered,
+weak and weary,
+
+3. Over many a quaint
+and curious volume
+of forgotten lore</pre></code>
+  <p>Despite being three distinct list blocks, DoubleDown will treat this as just a
+single list. This is needed for doing nested lists. For example:</p>
+  <code><pre>1. Fruit
+    1. Apples
+    2. Oranges
+2. Vegetables
+    1. Tomatos
+    2. Carrots</pre></code>
+  <p>Becomes:</p>
+  <result><ol>
+    <li><span>Fruit</span><ol>
+      <li><span>Apples</span></li>
+      <li><span>Oranges</span></li>
+    </ol></li>
+    <li><span>Vegetables</span><ol>
+      <li><span>Tomatos</span></li>
+      <li><span>Carrots</span></li>
+    </ol></li>
+  </ol></result>
+  <p>This also allows for lists with more elaborate content in their items. For
+example:</p>
+  <code><pre>1. Lorem Ipsum
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    commodo consequat.
+2. Fibonacci
+    [code javascript]
+        &gt; function fibonacci(n) {
+        &gt;     if (n &lt;= 1) return 1;
+        &gt;     return fibonacci(n - 1) + fibonacci(n - 2);
+        &gt; }</pre></code>
+  <p>Becomes:</p>
+  <result><ol>
+    <li><span>Lorem Ipsum</span><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+commodo consequat.</p></li>
+    <li><span>Fibonacci</span><code><pre>function fibonacci(n) {
+    if (n &lt;= 1) return 1;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}</pre></code></li>
+  </ol></result>
+  <h3><a id="tables"></a>Tables</h3>
+  <p>A block where each line starts with a pipe (<inline-code>|</inline-code>), followed by whitespace, and
+ends with a pipe, preceded by whitespace, is a considered a table. Each line
+represents a row if that table. Columns can be created within a row by
+separating them with pipes (these too with whitespace). For example:</p>
+  <code><pre>| 8 | 1 | 6 |
+| 3 | 5 | 7 |
+| 4 | 9 | 2 |</pre></code>
+  <p>Becomes:</p>
+  <result><table>
+    <tbody>
+      <tr>
+        <td>8</td>
+        <td>1</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>5</td>
+        <td>7</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>9</td>
+        <td>2</td>
+      </tr>
+    </tbody>
+  </table></result>
+  <p>When one table block follows another at the same level of indentation, they are
+considered to be part of the same table. For example:</p>
+  <code><pre>| 8 | 1 | 6 |
+
+| 3 | 5 | 7 |
+
+| 4 | 9 | 2 |</pre></code>
+  <p>Despite being three distinct table blocks, DoubleDown will treat this as just a
+single table.</p>
+  <h3><a id="dictionaries"></a>Dictionaries</h3>
+  <p>A block where each line starts with a dash (<inline-code>-</inline-code>), followed by whitespace, is
+considered a dictionary, where each line defines a key and an associated value.
+Key and value are separated by a colon (<inline-code>:</inline-code>), followed by whitespace. For
+example:</p>
+  <code><pre>- Title: DoubleDown
+- PI: 3.14159265359...</pre></code>
+  <p>When one dictionary block follows another at the same level of indentation,
+they are considered to be part of the same dictionary. For example:</p>
+  <code><pre>- Title: DoubleDown
+
+- PI: 3.14159265359...</pre></code>
+  <h3><a id="verbatim"></a>Verbatim</h3>
+  <p>A block where each line starts with a greater-than sign (<inline-code>&gt;</inline-code>), followed by
+whitespace, is considered a verbatim block. For example:</p>
+  <code><pre>&gt; Once upon a midnight dreary, while I pondered, weak and weary,
+&gt; Over many a quaint and curious volume of forgotten lore—
+&gt;     While I nodded, nearly napping, suddenly there came a tapping,
+&gt; As of some one gently rapping, rapping at my chamber door.
+&gt; “’Tis some visitor,” I muttered, “tapping at my chamber door—
+&gt;             Only this and nothing more.”</pre></code>
+  <p>Becomes:</p>
+  <result><pre>Once upon a midnight dreary, while I pondered, weak and weary,
+Over many a quaint and curious volume of forgotten lore—
+    While I nodded, nearly napping, suddenly there came a tapping,
+As of some one gently rapping, rapping at my chamber door.
+“’Tis some visitor,” I muttered, “tapping at my chamber door—
+            Only this and nothing more.”</pre></result>
+  <h3><a id="comments"></a>Comments</h3>
+  <p>A block which starts with four forward slashes (<inline-code>////</inline-code>), followed by a
+whitespace, is considered a comment. For example:</p>
+  <code><pre>//// This is a comment.</pre></code>
+  <p>It is ok to split the comment over multiple lines, if that's more convenient.</p>
+  <code><pre>//// This is
+a multi-line
+comment.</pre></code>
+  <h3><a id="horizontal-rule"></a>Horizontal rule</h3>
+  <p>A sequence of three or more dashes (<inline-code>-</inline-code>) is considered a horizontal rule. For
+example:</p>
+  <code><pre>---</pre></code>
+  <p>Becomes:</p>
+  <result><hr></hr></result>
+  <h2><a id="inline-elements"></a>Inline elements</h2>
+  <h3><a id="emphasis"></a>Emphasis</h3>
+  <p>Any parts of text enclosed on either side by double underscores (<inline-code>__</inline-code>), or on
+either side by double asterisks (<inline-code>**</inline-code>), is considered to have emphasis. For
+example:</p>
+  <code><pre>__Once__ upon a **midnight dreary**</pre></code>
+  <p>Becomes:</p>
+  <result><p><i>Once</i> upon a <b>midnight dreary</b></p></result>
+  <p>The text being enclosed can selection multiple lines, but not multiple blocks. For
+example:</p>
+  <code><pre>while I pondered, __weak
+and weary__,</pre></code>
+  <p>Becomes:</p>
+  <result><p>while I pondered, <i>weak
+and weary</i>,</p></result>
+  <p>Both forms of emphasis may be combined. For example:</p>
+  <code><pre>Over __many a **quaint** and **curious** volume__ of forgotten lore</pre></code>
+  <p>Becomes:</p>
+  <result><p>Over <i>many a <b>quaint</b> and <b>curious</b> volume</i> of forgotten lore</p></result>
+  <h3><a id="strikethrough"></a>Strikethrough</h3>
+  <p>Any parts of text enclosed on either side by double tildes (<inline-code>~~</inline-code>) is considered
+to be struck through. For example:</p>
+  <code><pre>Nameless here for ~~never~~ evermore.</pre></code>
+  <p>Becomes:</p>
+  <result><p>Nameless here for <strikethrough>never</strikethrough> evermore.</p></result>
+  <h3><a id="placeholders"></a>Placeholders</h3>
+  <p>A sequence of three or more underscores (<inline-code>___</inline-code>) is considered a placeholder. For
+example:</p>
+  <code><pre>Nameless here for __________.</pre></code>
+  <p>Becomes:</p>
+  <result><p>Nameless here for <placeholder></placeholder>.</p></result>
+  <h3><a id="selections"></a>Selections</h3>
+  <p>Any text following double less-than signs (<inline-code>&lt;&lt;</inline-code>) and up to double greater-than
+signs (<inline-code>&gt;&gt;</inline-code>) is considered a "selection". For example:</p>
+  <code><pre>Once upon a midnight dreary, &lt;&lt;while I pondered,&gt;&gt; weak and weary,</pre></code>
+  <p>A selection does not do anything other than mark a section of text. Why would you
+want to do that ? So macros can be applied to them.</p>
+  <h2><a id="slots"></a>Slots</h2>
+  <p>There is one more type of inline element which connects inline elements to
+blocks: <b>slots</b>.</p>
+  <p>Any text following double curly opening braces (<inline-code>{{</inline-code>), optionally followed by
+whitespace, and up to double curly closing braces (<inline-code>}}</inline-code>), optionally preceded
+by whitespace, is considered a "slot". For example:</p>
+  <code><pre>Once upon a {{time}}</pre></code>
+  <p>The text enclosed within the slot, minus any leading and trailing whitespace is
+the slot's key. So, in the above example, the key is <inline-code>time</inline-code>.</p>
+  <p>Slots are replaced by whatever text and/or blocks have been defined as the
+value associated with that key. How do you associate values to keys ? Well,
+through <a href="#dictionaries">dictionaries</a>, of course.</p>
+  <p>Here is a simple example, showing the combination in action:</p>
+  <code><pre>Quoth {{who}} "{{what}}."
+    - who: the **Raven**
+    - what: __Nevermore__</pre></code>
+  <p>Becomes:</p>
+  <result><p>Quoth the <b>Raven</b> "<i>Nevermore</i>."</p></result>
+  <h3><a id="slots-and-tables"></a>Slots and tables</h3>
+  <p>How do you place multiple lines in a table ? How do you place a list in a
+table ? How do you place a table in a table ? In DoubleDown the answer is
+simple: <i>slots</i>.</p>
+  <h4><a id="multipe-lines-in-tables"></a>Multipe lines in tables</h4>
+  <code><pre>| A Poem   | By              |
+| {{poem}} | Edgar Allen Poe |
+
+    - poem:
+        Once upon a midnight dreary, while I pondered, weak and weary
+        
+        Over many a quaint and curious volume of forgotten lore -
+        
+        While I nodded, nearly napping, suddenly there came a tapping,
+        
+        As of some one gently rapping, rapping at my chamber door.
+        
+        "'Tis some visiter," I muttered, "tapping at my chamber door -
+        
+        Only this and nothing more."</pre></code>
+  <p>Becomes:</p>
+  <result><table>
+    <tbody>
+      <tr>
+        <td>A Poem</td>
+        <td>By</td>
+      </tr>
+      <tr>
+        <td><p>Once upon a midnight dreary, while I pondered, weak and weary</p><p>Over many a quaint and curious volume of forgotten lore -</p><p>While I nodded, nearly napping, suddenly there came a tapping,</p><p>As of some one gently rapping, rapping at my chamber door.</p><p>"'Tis some visiter," I muttered, "tapping at my chamber door -</p><p>Only this and nothing more."</p></td>
+        <td>Edgar Allen Poe</td>
+      </tr>
+    </tbody>
+  </table></result>
+  <h4><a id="lists-in-tables"></a>Lists in tables</h4>
+  <code><pre>| A Poem   | By              |
+| {{poem}} | Edgar Allen Poe |
+
+    - poem:
+        * Ah, distinctly I remember it was in the bleak December;
+        * And each separate dying ember wrought its ghost upon the floor.
+        * Eagerly I wished the morrow; - vainly I had sought to borrow
+        * From my books surcease of sorrow - sorrow for the lost Lenore -
+        * For the rare and radiant maiden whom the angels name Lenore -
+        * Nameless here for evermore.</pre></code>
+  <p>Becomes:</p>
+  <result><table>
+    <tbody>
+      <tr>
+        <td>A Poem</td>
+        <td>By</td>
+      </tr>
+      <tr>
+        <td><ul>
+          <li><span>Ah, distinctly I remember it was in the bleak December;</span></li>
+          <li><span>And each separate dying ember wrought its ghost upon the floor.</span></li>
+          <li><span>Eagerly I wished the morrow; - vainly I had sought to borrow</span></li>
+          <li><span>From my books surcease of sorrow - sorrow for the lost Lenore -</span></li>
+          <li><span>For the rare and radiant maiden whom the angels name Lenore -</span></li>
+          <li><span>Nameless here for evermore.</span></li>
+        </ul></td>
+        <td>Edgar Allen Poe</td>
+      </tr>
+    </tbody>
+  </table></result>
+  <h4><a id="tables-in-tables"></a>Tables in tables</h4>
+  <code><pre>| A Poem   | By              |
+| {{poem}} | Edgar Allen Poe |
+
+  - poem:
+    | Ah, distinctly I remember        | it was in the bleak December;     |
+    | And each separate dying ember    | wrought its ghost upon the floor. |
+    | Eagerly I wished the morrow;     |  - vainly I had sought to borrow  |
+    | From my books surcease of sorrow | - sorrow for the lost Lenore -    |
+    | For the rare and radiant maiden  | whom the angels name Lenore -     |
+    | Nameless here                    | for evermore.                     |</pre></code>
+  <p>Becomes:</p>
+  <result><table>
+    <tbody>
+      <tr>
+        <td>A Poem</td>
+        <td>By</td>
+      </tr>
+      <tr>
+        <td><table>
+          <tbody>
+            <tr>
+              <td>Ah, distinctly I remember</td>
+              <td>it was in the bleak December;</td>
+            </tr>
+            <tr>
+              <td>And each separate dying ember</td>
+              <td>wrought its ghost upon the floor.</td>
+            </tr>
+            <tr>
+              <td>Eagerly I wished the morrow;</td>
+              <td>- vainly I had sought to borrow</td>
+            </tr>
+            <tr>
+              <td>From my books surcease of sorrow</td>
+              <td>- sorrow for the lost Lenore -</td>
+            </tr>
+            <tr>
+              <td>For the rare and radiant maiden</td>
+              <td>whom the angels name Lenore -</td>
+            </tr>
+            <tr>
+              <td>Nameless here</td>
+              <td>for evermore.</td>
+            </tr>
+          </tbody>
+        </table></td>
+        <td>Edgar Allen Poe</td>
+      </tr>
+    </tbody>
+  </table></result>
+  <h2><a id="macros"></a>Macros</h2>
+  <p>Macros are DoubleDown's extension points. Their meaning is not defined by
+DoubleDown; only their syntax is. But you can think of them as procedures being
+applied to (parts of) a DoubleDown document.</p>
+  <h3><a id="syntax"></a>Syntax</h3>
+  <p>Anything enclosed between an opening square bracket (<inline-code>[</inline-code>) and a closing
+square bracket (<inline-code>]</inline-code>) is considered a macro. For example:</p>
+  <code><pre>[link https://www.wikipedia.org/]</pre></code>
+  <p>Anything between the square brackets gets separated into values by whitespace.
+The first value (which is required) is the macro's name.</p>
+  <h3><a id="scope"></a>Scope</h3>
+  <p>What a macro applies to depends on where the macro appears in the text.</p>
+  <ul>
+    <li><span>If a macro appears as the sole element in a block, then it applies to any 
+blocks nested below that one. For example:</span><code><pre>[code dbldwn]
+    &gt; * Apples
+    &gt; * Oranges</pre></code><p>Here the macro <inline-code>code</inline-code> (with argument <inline-code>dbldwn</inline-code>) would apply to the list block
+nested below it.</p><p>If there are no nested blocks, it is assumed that the macro can do its work
+without any.</p></li>
+    <li><span>If a macro appears in a block with other elements, then it applies to any
+"selection" directly preceding it. For example:</span><code><pre>More on &lt;&lt;the author of the Raven&gt;&gt;[link TheRaven]
+can easily be found online.</pre></code><p>Here the macro <inline-code>link</inline-code> applies to the text "the author of the Raven".</p><p>If there is no selection, it is assumed that the macro can do its work without
+one.</p></li>
+  </ul>
+  <h3><a id="including-other-doubledown-files"></a>Including other DoubleDown files</h3>
+  <p>The <inline-code>include</inline-code> macro allows including the contents of a separate DoubleDown file
+into the current one. The document tree which was built for the referenced file
+will replace the macro.</p>
+  <p>For example, say that there exists a file named <inline-code>the_raven.dbl.txt</inline-code> with the
+following contents:</p>
+  <code><pre>Once upon a midnight dreary, while I pondered, weak and weary,
+Over many a quaint and curious volume of forgotten lore—
+While I nodded, nearly napping, suddenly there came a tapping,
+As of some one gently rapping, rapping at my chamber door.
+“’Tis some visitor,” I muttered, “tapping at my chamber door—
+Only this and nothing more.”</pre></code>
+  <p>We could reference that file from another, as in the following example:</p>
+  <code><pre># The Raven
+
+  [include the_raven.dbl.txt]</pre></code>
+  <p>This would be equivalent to:</p>
+  <code><pre># The Raven
+
+  Once upon a midnight dreary, while I pondered, weak and weary,
+  Over many a quaint and curious volume of forgotten lore—
+  While I nodded, nearly napping, suddenly there came a tapping,
+  As of some one gently rapping, rapping at my chamber door.
+  “’Tis some visitor,” I muttered, “tapping at my chamber door—
+  Only this and nothing more.”</pre></code>
+  <p>Note that the included file adheres to the nesting of the macro, as indicated
+by the indentation.</p>
+  <p>File references are resolved relative to the path of the file declaring the
+inclusion.</p>
+  <h3><a id="macro-modules"></a>Macro modules</h3>
+  <p>The list of available macros may be expanded by third party modules, which can
+be loaded in on-demand by means of the <inline-code>use</inline-code> macro. For example:</p>
+  <code><pre>[use bibliography]</pre></code>
+  <p>This would load the <inline-code>bibliography</inline-code> module, which will install extra macros for
+use. For instance, this module defines a <inline-code>see</inline-code> macro which may be used to refer
+to books.</p>
+  <code><pre>Upon close reading of &lt;&lt;The Raven&gt;&gt;[see POE p.42]...</pre></code>
+  <p>Now, this would look for any <inline-code>see</inline-code> macro. If multiple modules were to define
+this macro then it may not be clear which one will actually be used. That's why
+you can also scope macros with the module name:</p>
+  <code><pre>Upon close reading of &lt;&lt;The Raven&gt;&gt;[bibliography see POE p.42]...</pre></code>
+  <h2><a id="escaping-characters"></a>Escaping characters</h2>
+  <p>Any character preceded by a backslash (<inline-code>\</inline-code>) will not be matched against any of
+the markers checked for by DoubleDown. For example:</p>
+  <code><pre>\# The Raven</pre></code>
+  <p>Becomes:</p>
+  <result><p># The Raven</p></result>
+  <p>The escaped character will be passed as-is to the document, with the backslash
+removed. For example:</p>
+  <code><pre>\N\e\v\e\r\m\o\r\e</pre></code>
+  <p>This will yield the same as:</p>
+  <code><pre>Nevermore</pre></code>
+  <p>If you need a backslash in your document, just escape it:</p>
+  <code><pre>\\</pre></code>
+</body>
+</html>

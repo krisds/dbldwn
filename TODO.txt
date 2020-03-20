@@ -1,0 +1,108 @@
+* Don't do processing as an iteration.
+Do processing as a function applied to a single block.
+Let processing check context as needed.
+    * `[include]` ?
+    * `[replace]` ?
+
+
+* class for Replace(ment)
+class for "Meta" Node
+on replace: meta(DDM.meta(() => { r.disable() }), ...r.text, DDM.meta(() => { r.enable() }))
+But then we're littering the AST for later passes, no ?
+Or can we clean up again in remap ???
+
+
+
+
+* Auto-adjust extension on links.
+    
+    > <<appendix>>[link appendix.%]
+    
+    Replace `%` with correct format.
+    
+    (Already done for html.)
+
+* \[replace]
+
+    > [replace]
+    >   - Wizard: ____[dnd beyond classes/wizard]
+    >   - Elf: ____[dnd beyond races/elves]
+    >   - Elf: ____[see PHB p.000]   //// Prio over previous one.
+
+    * Would need to be in GENERATE.
+    * Dictionary gets expanded in current scope.
+    * A rule like the one for slots, but based on text matches.
+    * Macro and contents gets removed.
+    * Optional placeholder on right hand side receives original text again, and may get expanded too...
+    * Priority: to later definitions
+
+* \[dnd auto-link beyond books]
+
+* TODO's in the code
+
+* \[ bibliography create ] ... Ugly. Can I do a default callback for a module ? Using default_entry ?
+
+* Document module macros
+
+* Actual unit test library for node or JS ?
+
+* Passes ?
+
+    0. DOUBLEDOWN
+        0. LOCAL "GENERATE"
+            * remove comments
+            * macro: include
+            * macro: use
+            * content generation macros (things which do no rely on global data)
+                * `see`
+                * `nevermore`
+            * MILESTONE: fixed document structure
+            * macro: meta (once)
+            * collect links
+            * collect headings
+            * macro: cite...
+            * dictionaries into lookup table (somehow)
+            * slots
+            * `see` -> links
+        
+        0. GLOBAL "COMPLETE"
+            * biblio
+            * toc
+
+    0. TO_<fmt>
+    0. SERIALIZE
+
+* Favicon macro ?
+
+* HTML meta author ?
+
+* Move documentation to a docs folder ?
+
+* add license info into `meta`
+
+* dnd: `npc` macro
+
+* Allow multiple macros in one block ? One per line, in that case.
+
+* A PDF output. Using https://pdfkit.org/ ?
+
+* define scope of each phase (maybe redefine phases as needed to align)
+
+* retain tokens ?
+
+* macro `see` : details hover in HTML
+
+* dbldown embedded in code ? e.g. .dbl.js => parse comments as doubledown. consider code as [code js]
+
+* Would this work ?
+    > * hebben olla
+    >   vogalas nestas higunnan
+    >   hinase hic enda thu ?
+
+* footnotes, like links (And so we can say that π is about <<3.14>>[footnote on pi])
+    > [footnotes]
+    >     - on pi: Really, it's 3.14159 26535 89793 23846 26433 83279 50288 41971 69399... and so on.
+
+----
+
+* Unify items and children ? NO. Helps distuingish listy blocks from others.

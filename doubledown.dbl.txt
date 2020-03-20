@@ -1,0 +1,838 @@
+[meta]
+    - Title: DoubleDown
+    - Author: krisds
+
+[table-of-contents]
+
+[image logo.svg width 50%]
+
+# DoubleDown
+
+[definition]
+    DoubleDown aims to be a simple, structured and extensible, plain-text
+    markup language.
+
+**Note:** This document is itself written using DoubleDown;
+you can <<see the source for it here>>[link doubledown.dbl.txt].
+
+## Philosophy
+
+There would be no DoubleDown without <<John Gruber's Markdown>>[link MD]
+lighting the way. Markdown's syntax allows writing machine-processable
+documents, while still remaining readable. Indeed, that philosophy is
+clearly stated by John up-front:
+
+[quote]
+    The overriding design goal for Markdown's formatting syntax is to make
+    it as readable as possible. The idea is that a Markdown-formatted
+    document should be publishable as-is, as plain text, without looking
+    like it's been marked up with tags or formatting instructions.
+
+As great as Markdown is, there are times when its design gets in the way of
+what you want to do. Maybe you want some conditional text. Maybe you need a
+special kind of paragraph; a sidebar for instance. Maybe you want to include
+some comments which should not show up in the final output. Maybe you want to
+do citations and have a bibliography at the end. Or a table-of-contents at the
+start.
+
+Yes, you can fix most everything by including raw HTML in a Markdown document.
+But if HTML is anything, readable is not high on its list of attributes. And so
+it detracts from Markdown's overriding design goal.
+
+In addition, HTML may not be the type of output we want. If you want to write
+a paper, or a book, you're most likely targeting PDF instead.
+
+So here I offer DoubleDown as an alternative. It tries to stick to Markdown's
+overall design goal of readability, retaining some of its best ideas, while
+also balancing some extra constraints:
+
+    * Have only one way to do any one thing.
+    * Do not tie any of its syntax to a specific output format.
+    * Make it possible/easy to add in useful extensions.
+
+
+
+[links]
+    - MD: https://daringfireball.net/projects/markdown/
+
+
+
+## Blocks
+
+DoubleDown documents are made up of discrete blocks of text. The first and
+foremost thing to understand about DoubleDown's syntax is precisely what makes
+up an individual block.
+
+[definition]
+    A block is a sequence of one or more lines.
+    Any two lines in a document are part of the same block, **unless**:
+    
+    * they are __separated by a blank line__, or
+    * they are __indented differently__.
+
+The idea of using blank lines to separate blocks of text comes straight from
+Markdown, and it's a great one. It makes for a very readable raw document.
+
+The idea of using indentation to separate blocks, however, is not a Markdown
+concept. The inspiration here comes from programming languages like Python.
+It is known as the <<off-side rule>>[link OSR], and it adds a hierarchical
+structure to blocks, which will let us do some creative things while keeping
+the actual text readable.
+
+The logical tree structure will, of course, match the tree structure as it
+visually appears in the document. That is, blocks are ordered as found in the
+document. So if one block appears before another in the text, then it will
+precede that block in the tree. If one block is indented below another in the
+text then it will appear as descendent of that block in the tree.
+
+[definition]
+    The parent of any block is the closest preceding block whose indentation is
+    lower than the current one. If no such block exists then the block is a
+    "root" block.
+
+For example:
+
+[code dbldwn]
+    > The quick
+    >   brown fox
+    >     jumped over
+    >   the lazy
+    >     dog.
+
+The hierarchy for this would match:
+
+[result]
+    * The quick
+        * brown fox
+            * jumped over
+        * the lazy
+            * dog.
+
+
+[links]
+    - OSR: https://en.wikipedia.org/wiki/Off-side_rule
+
+
+
+## Block types
+
+DoubleDown blocks get categorized into one of different types, the most basic
+of which is just a chunk of text, or "paragraph". But there also headings,
+lists, tables, and others.
+
+Any block should be of only one kind. So you should not mix a list into a
+heading, for instance. Keep separate things in separate blocks. While this may
+sound (overly ?) restrictive, it helps readability, simplifies the formatting
+rules, and just makes processing DoubleDown documents easier.
+
+
+### Paragraphs
+
+When a block is not recognized as any specific type, it gets marked as being a
+paragraph. This is just a generic block of text, and is what makes up most
+documents (including this one).
+
+
+### Headings
+
+A block which starts with a sequence of one or more hash characters (`#`),
+followed by whitespace, is considered a heading. For example:
+
+[code dbldwn]
+    > # This is a top-level heading
+    >
+    > ## This is a sub-heading
+    >
+    > ########## What level heading are we at ?
+
+It is ok to split the heading over multiple lines, if that's more convenient.
+
+[code dbldwn]
+    > # The nucleotide sequence of a 3.2 kb segment of mitochondrial maxicircle
+    > DNA from Crithidia fasciculata containing the gene for cytochrome oxidase
+    > subunit III, the N-terminal part of the apocytochrome b gene and a
+    > possible frameshift gene; further evidence for the use of unusual
+    > initiator triplets in trypanosome mitochondria
+
+//// Yes, that was a real title...
+
+//// TODO Any blocks nested directly under a heading are treated as if they were not.
+
+
+### Ordered lists
+
+A block where the first line starts with an asterisk (`*`), followed by
+whitespace, is considered a list. Each further line which starts in the same
+way adds another item to the list. For example:
+
+[code dbldwn]
+    > * Once upon a midnight dreary,
+    > * while I pondered,
+    > weak and weary,
+    > * Over many a quaint
+    > and curious volume
+    > of forgotten lore
+
+Becomes:
+
+[result]
+    * Once upon a midnight dreary,
+    * while I pondered,
+    weak and weary,
+    * Over many a quaint
+    and curious volume
+    of forgotten lore
+
+When one list block follows another at the same level of indentation, they are
+considered to be part of the same list. For example:
+
+[code dbldwn]
+    > * Once upon a midnight dreary,
+    >
+    > * while I pondered,
+    > weak and weary,
+    >
+    > * Over many a quaint
+    > and curious volume
+    > of forgotten lore
+
+Despite being three distinct list blocks, DoubleDown will treat this as just a
+single list. This is needed for doing nested lists. For example:
+
+[code dbldwn]
+    > * Fruit
+    >     * Apples
+    >     * Oranges
+    > * Vegetables
+    >     * Tomatoes
+    >     * Carrots
+
+Becomes:
+
+[result]
+    * Fruit
+        * Apples
+        * Oranges
+    * Vegetables
+        * Tomatoes
+        * Carrots
+
+This also allows for lists with more elaborate content in their items. For
+example:
+
+[code dbldwn]
+    > * Lorem Ipsum
+    >     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+    >     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+    >     veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    >     commodo consequat.
+    > * Fibonacci
+    >     [code javascript]
+    >         > function fibonacci(n) {
+    >         >     if (n <= 1) return 1;
+    >         >     return fibonacci(n - 1) + fibonacci(n - 2);
+    >         > }
+
+Becomes:
+
+[result]
+    * Lorem Ipsum
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat.
+    * Fibonacci
+        [code javascript]
+            > function fibonacci(n) {
+            >     if (n <= 1) return 1;
+            >     return fibonacci(n - 1) + fibonacci(n - 2);
+            > }
+
+//// TODO Multi-line list items. HOW ?
+
+
+### Numbered lists
+
+A block where each line starts with a number, followed by a period (`.`), and
+again followed by whitespace, is considered a numbered list. Each further line
+which starts in the same way adds another item to the list. For example:
+
+[code dbldwn]
+    > 1. Once upon a midnight dreary,
+    > 2. while I pondered,
+    > weak and weary,
+    > 3. Over many a quaint
+    > and curious volume
+    > of forgotten lore
+
+Becomes:
+
+[result]
+    1. Once upon a midnight dreary,
+    2. while I pondered,
+    weak and weary,
+    3. Over many a quaint
+    and curious volume
+    of forgotten lore
+
+List numbers need not be in order, sequential, or even unique. So the following
+example will give the exact same result.
+
+[code dbldwn]
+    > 0. Once upon a midnight dreary,
+    > 0. while I pondered,
+    > weak and weary,
+    > 0. Over many a quaint
+    > and curious volume
+    > of forgotten lore
+
+When one numbered list block follows another at the same level of indentation,
+they are considered to be part of the same list. For example:
+
+[code dbldwn]
+    > 1. Once upon a midnight dreary,
+    >
+    > 2. while I pondered,
+    > weak and weary,
+    >
+    > 3. Over many a quaint
+    > and curious volume
+    > of forgotten lore
+
+Despite being three distinct list blocks, DoubleDown will treat this as just a
+single list. This is needed for doing nested lists. For example:
+
+[code dbldwn]
+    > 1. Fruit
+    >     1. Apples
+    >     2. Oranges
+    > 2. Vegetables
+    >     1. Tomatos
+    >     2. Carrots
+
+Becomes:
+
+[result]
+    1. Fruit
+        1. Apples
+        2. Oranges
+    2. Vegetables
+        1. Tomatos
+        2. Carrots
+
+This also allows for lists with more elaborate content in their items. For
+example:
+
+[code dbldwn]
+    > 1. Lorem Ipsum
+    >     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+    >     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+    >     veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    >     commodo consequat.
+    > 2. Fibonacci
+    >     [code javascript]
+    >         > function fibonacci(n) {
+    >         >     if (n <= 1) return 1;
+    >         >     return fibonacci(n - 1) + fibonacci(n - 2);
+    >         > }
+
+Becomes:
+
+[result]
+    1. Lorem Ipsum
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat.
+    2. Fibonacci
+        [code javascript]
+            > function fibonacci(n) {
+            >     if (n <= 1) return 1;
+            >     return fibonacci(n - 1) + fibonacci(n - 2);
+            > }
+
+//// TODO Multi-line list items. HOW ?
+
+
+
+### Tables
+
+A block where each line starts with a pipe (`|`), followed by whitespace, and
+ends with a pipe, preceded by whitespace, is a considered a table. Each line
+represents a row if that table. Columns can be created within a row by
+separating them with pipes (these too with whitespace). For example:
+
+[code dbldwn]
+    > | 8 | 1 | 6 |
+    > | 3 | 5 | 7 |
+    > | 4 | 9 | 2 |
+
+Becomes:
+
+[result]
+    | 8 | 1 | 6 |
+    | 3 | 5 | 7 |
+    | 4 | 9 | 2 |
+
+When one table block follows another at the same level of indentation, they are
+considered to be part of the same table. For example:
+
+[code dbldwn]
+    > | 8 | 1 | 6 |
+    >
+    > | 3 | 5 | 7 |
+    >
+    > | 4 | 9 | 2 |
+
+Despite being three distinct table blocks, DoubleDown will treat this as just a
+single table.
+
+//// TODO Tables with complex content.
+//// TODO Nested tables.
+
+
+
+### Dictionaries
+
+A block where each line starts with a dash (`-`), followed by whitespace, is
+considered a dictionary, where each line defines a key and an associated value.
+Key and value are separated by a colon (`:`), followed by whitespace. For
+example:
+
+[code dbldwn]
+    > - Title: DoubleDown
+    > - PI: 3.14159265359...
+
+When one dictionary block follows another at the same level of indentation,
+they are considered to be part of the same dictionary. For example:
+
+[code dbldwn]
+    > - Title: DoubleDown
+    >
+    > - PI: 3.14159265359...
+
+//// TODO Blocks which are nested under a dictionary block belong to the last dictionary item in that block.
+
+
+
+### Verbatim
+
+A block where each line starts with a greater-than sign (`>`), followed by
+whitespace, is considered a verbatim block. For example:
+
+[code dbldwn]
+    > > Once upon a midnight dreary, while I pondered, weak and weary,
+    > > Over many a quaint and curious volume of forgotten lore—
+    > >     While I nodded, nearly napping, suddenly there came a tapping,
+    > > As of some one gently rapping, rapping at my chamber door.
+    > > “’Tis some visitor,” I muttered, “tapping at my chamber door—
+    > >             Only this and nothing more.”
+
+
+Becomes:
+
+[result]
+    > Once upon a midnight dreary, while I pondered, weak and weary,
+    > Over many a quaint and curious volume of forgotten lore—
+    >     While I nodded, nearly napping, suddenly there came a tapping,
+    > As of some one gently rapping, rapping at my chamber door.
+    > “’Tis some visitor,” I muttered, “tapping at my chamber door—
+    >             Only this and nothing more.”
+
+
+
+### Comments
+
+A block which starts with four forward slashes (`////`), followed by a
+whitespace, is considered a comment. For example:
+
+[code dbldwn]
+    > //// This is a comment.
+
+It is ok to split the comment over multiple lines, if that's more convenient.
+
+[code dbldwn]
+    > //// This is
+    > a multi-line
+    > comment.
+
+//// TODO Any blocks nested beneath a comment are considered part of that comment.
+That being said, they themselves can be blocks of another type.
+
+
+### Horizontal rule
+
+A sequence of three or more dashes (`-`) is considered a horizontal rule. For
+example:
+
+[code dbldwn]
+    > ---
+
+Becomes:
+
+[result]
+    ---
+
+## Inline elements
+
+### Emphasis
+
+Any parts of text enclosed on either side by double underscores (`__`), or on
+either side by double asterisks (`**`), is considered to have emphasis. For
+example:
+
+[code dbldwn]
+    > __Once__ upon a **midnight dreary**
+
+Becomes:
+
+[result]
+    __Once__ upon a **midnight dreary**
+
+The text being enclosed can selection multiple lines, but not multiple blocks. For
+example:
+
+[code dbldwn]
+    > while I pondered, __weak
+    > and weary__,
+
+Becomes:
+
+[result]
+    while I pondered, __weak
+    and weary__,
+
+Both forms of emphasis may be combined. For example:
+
+[code dbldwn]
+    > Over __many a **quaint** and **curious** volume__ of forgotten lore
+
+Becomes:
+
+[result]
+    Over __many a **quaint** and **curious** volume__ of forgotten lore
+
+
+### Strikethrough
+
+Any parts of text enclosed on either side by double tildes (`~~`) is considered
+to be struck through. For example:
+
+[code dbldwn]
+    > Nameless here for ~~never~~ evermore.
+
+Becomes:
+
+[result]
+    Nameless here for ~~never~~ evermore.
+
+
+### Placeholders
+
+A sequence of three or more underscores (`\___`) is considered a placeholder. For
+example:
+
+[code dbldwn]
+    > Nameless here for __________.
+
+Becomes:
+
+[result]
+    Nameless here for __________.
+
+
+### Selections
+
+Any text following double less-than signs (`<<`) and up to double greater-than
+signs (`>>`) is considered a "selection". For example:
+
+[code dbldwn]
+    > Once upon a midnight dreary, <<while I pondered,>> weak and weary,
+
+A selection does not do anything other than mark a section of text. Why would you
+want to do that ? So macros can be applied to them.
+
+
+## Slots
+
+There is one more type of inline element which connects inline elements to
+blocks: **slots**.
+
+Any text following double curly opening braces (`{{`), optionally followed by
+whitespace, and up to double curly closing braces (`}}`), optionally preceded
+by whitespace, is considered a "slot". For example:
+
+[code dbldwn]
+    > Once upon a {{time}}
+
+The text enclosed within the slot, minus any leading and trailing whitespace is
+the slot's key. So, in the above example, the key is `time`.
+
+Slots are replaced by whatever text and/or blocks have been defined as the
+value associated with that key. How do you associate values to keys ? Well,
+through <<dictionaries>>[link #dictionaries], of course.
+
+Here is a simple example, showing the combination in action:
+
+[code dbldwn]
+    > Quoth {{who}} "{{what}}."
+    >     - who: the **Raven**
+    >     - what: __Nevermore__
+
+Becomes:
+
+[result]
+    Quoth {{who}} "{{what}}."
+        - who: the **Raven**
+        - what: __Nevermore__
+
+
+### Slots and tables
+
+How do you place multiple lines in a table ? How do you place a list in a
+table ? How do you place a table in a table ? In DoubleDown the answer is
+simple: __slots__.
+
+
+#### Multipe lines in tables
+
+[code dbldwn]
+    > | A Poem   | By              |
+    > | {{poem}} | Edgar Allen Poe |
+    > 
+    >     - poem:
+    >         Once upon a midnight dreary, while I pondered, weak and weary
+    >         
+    >         Over many a quaint and curious volume of forgotten lore -
+    >         
+    >         While I nodded, nearly napping, suddenly there came a tapping,
+    >         
+    >         As of some one gently rapping, rapping at my chamber door.
+    >         
+    >         "'Tis some visiter," I muttered, "tapping at my chamber door -
+    >         
+    >         Only this and nothing more."
+
+Becomes:
+
+[result]
+    | A Poem   | By              |
+    | {{poem}} | Edgar Allen Poe |
+    
+        - poem:
+            Once upon a midnight dreary, while I pondered, weak and weary
+            
+            Over many a quaint and curious volume of forgotten lore -
+            
+            While I nodded, nearly napping, suddenly there came a tapping,
+            
+            As of some one gently rapping, rapping at my chamber door.
+            
+            "'Tis some visiter," I muttered, "tapping at my chamber door -
+            
+            Only this and nothing more."
+
+
+#### Lists in tables
+
+[code dbldwn]
+    > | A Poem   | By              |
+    > | {{poem}} | Edgar Allen Poe |
+    > 
+    >     - poem:
+    >         * Ah, distinctly I remember it was in the bleak December;
+    >         * And each separate dying ember wrought its ghost upon the floor.
+    >         * Eagerly I wished the morrow; - vainly I had sought to borrow
+    >         * From my books surcease of sorrow - sorrow for the lost Lenore -
+    >         * For the rare and radiant maiden whom the angels name Lenore -
+    >         * Nameless here for evermore.
+
+Becomes:
+
+[result]
+    | A Poem   | By              |
+    | {{poem}} | Edgar Allen Poe |
+    
+        - poem:
+            * Ah, distinctly I remember it was in the bleak December;
+            * And each separate dying ember wrought its ghost upon the floor.
+            * Eagerly I wished the morrow; - vainly I had sought to borrow
+            * From my books surcease of sorrow - sorrow for the lost Lenore -
+            * For the rare and radiant maiden whom the angels name Lenore -
+            * Nameless here for evermore.
+
+
+#### Tables in tables
+
+[code dbldwn]
+    > | A Poem   | By              |
+    > | {{poem}} | Edgar Allen Poe |
+    > 
+    >   - poem:
+    >     | Ah, distinctly I remember        | it was in the bleak December;     |
+    >     | And each separate dying ember    | wrought its ghost upon the floor. |
+    >     | Eagerly I wished the morrow;     |  - vainly I had sought to borrow  |
+    >     | From my books surcease of sorrow | - sorrow for the lost Lenore -    |
+    >     | For the rare and radiant maiden  | whom the angels name Lenore -     |
+    >     | Nameless here                    | for evermore.                     |
+
+Becomes:
+
+[result]
+    | A Poem   | By              |
+    | {{poem}} | Edgar Allen Poe |
+    
+      - poem:
+        | Ah, distinctly I remember        | it was in the bleak December;     |
+        | And each separate dying ember    | wrought its ghost upon the floor. |
+        | Eagerly I wished the morrow;     |  - vainly I had sought to borrow  |
+        | From my books surcease of sorrow | - sorrow for the lost Lenore -    |
+        | For the rare and radiant maiden  | whom the angels name Lenore -     |
+        | Nameless here                    | for evermore.                     |
+
+
+## Macros
+
+Macros are DoubleDown's extension points. Their meaning is not defined by
+DoubleDown; only their syntax is. But you can think of them as procedures being
+applied to (parts of) a DoubleDown document.
+
+
+### Syntax
+
+Anything enclosed between an opening square bracket (`[`) and a closing
+square bracket (`]`) is considered a macro. For example:
+
+[code dbldwn]
+    > [link https://www.wikipedia.org/]
+
+Anything between the square brackets gets separated into values by whitespace.
+The first value (which is required) is the macro's name.
+
+
+### Scope
+
+What a macro applies to depends on where the macro appears in the text.
+
+* If a macro appears as the sole element in a block, then it applies to any 
+blocks nested below that one. For example:
+
+    [code dbldwn]
+        > [code dbldwn]
+        >     > * Apples
+        >     > * Oranges
+    
+    Here the macro `code` (with argument `dbldwn`) would apply to the list block
+    nested below it.
+    
+    If there are no nested blocks, it is assumed that the macro can do its work
+    without any.
+
+* If a macro appears in a block with other elements, then it applies to any
+"selection" directly preceding it. For example:
+
+    [code dbldwn]
+        > More on <<the author of the Raven>>[link TheRaven]
+        > can easily be found online.
+    
+    Here the macro `link` applies to the text "the author of the Raven".
+    
+    If there is no selection, it is assumed that the macro can do its work without
+    one.
+
+
+### Including other DoubleDown files
+
+The `include` macro allows including the contents of a separate DoubleDown file
+into the current one. The document tree which was built for the referenced file
+will replace the macro.
+
+For example, say that there exists a file named `the_raven.dbl.txt` with the
+following contents:
+
+[code dbldwn]
+    > Once upon a midnight dreary, while I pondered, weak and weary,
+    > Over many a quaint and curious volume of forgotten lore—
+    > While I nodded, nearly napping, suddenly there came a tapping,
+    > As of some one gently rapping, rapping at my chamber door.
+    > “’Tis some visitor,” I muttered, “tapping at my chamber door—
+    > Only this and nothing more.”
+
+We could reference that file from another, as in the following example:
+
+[code dbldwn]
+    > # The Raven
+    > 
+    >   [include the_raven.dbl.txt]
+
+This would be equivalent to:
+
+[code dbldwn]
+    > # The Raven
+    > 
+    >   Once upon a midnight dreary, while I pondered, weak and weary,
+    >   Over many a quaint and curious volume of forgotten lore—
+    >   While I nodded, nearly napping, suddenly there came a tapping,
+    >   As of some one gently rapping, rapping at my chamber door.
+    >   “’Tis some visitor,” I muttered, “tapping at my chamber door—
+    >   Only this and nothing more.”
+
+Note that the included file adheres to the nesting of the macro, as indicated
+by the indentation.
+
+File references are resolved relative to the path of the file declaring the
+inclusion.
+
+
+### Macro modules
+
+The list of available macros may be expanded by third party modules, which can
+be loaded in on-demand by means of the `use` macro. For example:
+
+[code dbldwn]
+    > [use bibliography]
+
+This would load the `bibliography` module, which will install extra macros for
+use. For instance, this module defines a `see` macro which may be used to refer
+to books.
+
+[code dbldwn]
+    > Upon close reading of <<The Raven>>[see POE p.42]...
+
+Now, this would look for any `see` macro. If multiple modules were to define
+this macro then it may not be clear which one will actually be used. That's why
+you can also scope macros with the module name:
+
+[code dbldwn]
+    > Upon close reading of <<The Raven>>[bibliography see POE p.42]...
+
+
+## Escaping characters
+
+Any character preceded by a backslash (`\\`) will not be matched against any of
+the markers checked for by DoubleDown. For example:
+
+[code dbldwn]
+    > \\# The Raven
+
+Becomes:
+
+[result]
+    \# The Raven
+
+The escaped character will be passed as-is to the document, with the backslash
+removed. For example:
+
+[code dbldwn]
+    > \\N\\e\\v\\e\\r\\m\\o\\r\\e
+
+This will yield the same as:
+
+[code dbldwn]
+    > Nevermore
+
+If you need a backslash in your document, just escape it:
+
+[code dbldwn]
+    > \\\\
+

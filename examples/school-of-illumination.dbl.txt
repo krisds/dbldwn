@@ -1,0 +1,316 @@
+[meta]
+    - Title: School Of Illumination
+    - Author: Kris DS
+
+[use dnd bibliography]
+
+//// TODO Would be nice to have the dnd module provide this for us.
+
+[replace]
+    - Violet Fungus: <<Violet Fungus>>[dnd beyond monsters/violet-fungus][see MM p. 138]
+    - skeletons: <<skeletons>>[dnd beyond monsters/skeleton][see MM p. 272]
+    - zombie: <<zombie>>[dnd beyond monsters/zombie][see MM p. 316]
+    - crawling claws: <<crawling claws>>[dnd beyond monsters/crawling-claw][see MM p. 44]
+    - Swarm of Insects (Spiders): <<Swarm of Insects (Spiders)>>[dnd beyond monsters/swarm-of-insects-spiders][see MM p. 338]
+    - Giant Spider: <<Giant Spider>>[dnd beyond monsters/giant-spider][see MM p. 328]
+    - Halfling: <<Halfling>>[dnd beyond races/halfling][see PHB p. 26]
+    - Dwarf: <<Dwarf>>[dnd beyond races/dwarf][see PHB p. 18]
+
+[replace]
+    - Anne Lindenbrook: <<Anne Lindenbrook>>[link #anne-lindenbrook]
+    - Alton Lindenbrook: <<Alton Lindenbrook>>[link #alton-lindenbrook]
+    - Orin: <<Orin>>[link #orint-rockseeker]
+    - Orin Rockseeker: <<Orin Rockseeker>>[link #orint-rockseeker]
+
+# School Of Illumination
+
+Some days have passed, and our players have settled down at the inn.
+Last night Elli was talking about some strange noises coming from below her school.
+
+[dnd description]
+    **Elli:** Grat thinks there's probably a monster down there.
+    
+    **Orin (teasing):** I bet it has all sorts of tentacles.
+    
+    **Elli (rolling her eyes):** Da-aaad...
+    
+    **Gwynnip:** Well, maybe our new guests could check it out. Elli's teacher is an old friend of yours. I bet she'd let them take a look. Don't cellars make great places for starting adventurers ?
+
+They do, of course. And so now our players find themselves in front of Elli's school.
+
+[dnd description]
+    You stand at the bottom of some steps to weathered double doors. The sign above the doors says "School of Illumination".
+    
+When inspecting the sign more closely, the players can see that the text has been painted over an older sign. A successful DC 18 Intelligence (Investigation) check reveals the old markings, which read: "Church of Transfiguration".
+
+
+## Ground Floor
+
+[image img/school-ground-floor.png]
+
+### Entrance Hall
+
+[dnd description]
+    Beyond the double doors lies a somewhat dark entrance hall. The floor is made of patterned black and white tile, which has seen a lot of traffic. A door into the left wall has a sign identifying it as the teacher's lounge. On the wall on the right hangs a board for notices which, currently, only has a parchment showing the school's schedule.
+    
+    You are welcomed here by a friendly Halfling lady, who introduces herself as Anne Lindenbrook. She apologizes that her husband, the Headmaster, could not receive them personally, as he is out on business.
+
+Mrs. Lindenbrook will extend the players every courtesy, allowing them free reign of the school, provided they do not disturb the students or the classes. **When asked about the noises** she will say that some of the kitchen staff have heard them, but she herself has not.
+
+[dnd sidebar]
+    # The School's schedule
+    
+    The school is a busy place in the day, but deserted at night. You can use the following schedule to help establish where NPCs might be found at any time.
+    
+    | Time of day   | Activity    |
+    | 09:00 - 10:00 | Classes     |
+    | 10:15 - 10:45 | Playtime    |
+    | 10:45 - 12:00 | Classes     |
+    | 12:00 - 13:00 | Lunch break |
+    | 13:00 - 14:15 | Classes     |
+    | 14:15 - 14:45 | Playtime    |
+    | 14:45 - 16:00 | Classes     |
+
+
+### Teacher’s Lounge
+
+[dnd description]
+    A long wooden table, propped up on one side by a book, stands in the middle of the teacher's lounge. On it are a ceramic pitcher and a variety of mugs.
+
+__**Items.**__ The book propping the table up is an old textbook on Dwarvish.
+
+
+### Headmaster Alton Lindenbrook's Office
+
+[dnd description]
+    Many narrow windows line the street side of this room, and let in a lot of light. A halfling-sized desk sits at far end, with a matching office chair behind it. Many bookcases line the wall to the right, though their shelves are far from filled. A ladder leans against one of them.
+
+This is the office of Headmaster Alton Lindenbrook. You won't find him at the school as he's "out on business".
+
+__**Locked door.**__ A locked door leads, via a stairway, down to the Headmaster's storage room. The lock is well-maintained and requires a successful DC 20 Dexterity (Sleight of Hand) check to open it.
+
+
+### Dining hall
+
+[dnd description]
+    Several tables with simple wooden chairs fill this room. Windows on one side look out over the inner courtyard, while windows on the other side show a view of a walled garden.
+
+This place fills at noon lunchbreak, when the students crowd the tables and the kitchen staff serves lunch.
+
+
+### Kitchen
+
+This is the domain of Davgeon and Belice, the school's cooks. In the mornings they are very busy preparing lunch for both students and teachers. The calm returns in the afternoon, when it becomes all about cleaning up.
+
+**When asked about the noises** Belice will confirm she has heard them, down in the cellars. A pitter-pattering, a scratching, a wailing,... it gave her the shivers. She no longer ventures far into the cellar, and gets Davgeon to fetch whatever she needs from there. For his part, Davgeon has not heard anythig sinister, but will defend Belice and state that if she says she heard something then that is good enough for him.
+
+
+### Chapel
+
+____
+
+
+### Inner Courtyard
+
+____
+
+
+### Walled garden
+
+____
+
+
+### Classrooms
+
+____
+
+
+
+## Cellars
+
+[image img/school-cellar.png]
+
+
+### Cellar, Main Entry
+
+_____ Produce and salted meats.
+
+
+### Cellar, CW1
+
+_____ Barrels of drink.
+
+
+### Cellar, CW2
+
+_____ Old school junk.
+
+
+### Cellar, CW3
+
+__**Creatures.**__ Three Violet Fungus will start attacking any disturbance within five feet of them.
+
+__**Items.**__ An old pickaxe, sledgehammer, and random bits of junk.
+
+
+
+### Cellar, CW4
+
+_____ Old phials and glassware from an alchemist. A bin filled with lead, and another empty one. 
+
+
+### Cellar, CCW1
+
+_____ School supplies.
+
+
+### Cellar, CCW2
+
+_____ Door locked from other side. Crooked mirror. Secret entrance (bricked up) to the crypt.
+
+__**Crooked Mirror.**__ When looking into the mirror, this is what the players see:
+
+[dnd description]
+    Coming from the hall behind you you see a man in robes carrying a heavy bin. He turns into a passage in the east wall and disappears from view.
+
+This man can only be see in the mirror. The passage, too, is presently missing. But closer inspection of the place where the man supposedly entered the wall reveals that it has been filled in with stone.
+
+__**Hidden passage.**__ The hidden passage can be uncovered by brute strength (target DC 20), by attacking the wall with a blunt weapon (target DC 17), or by means of the sledge hammer and/or pickaxe found in another room. When broken down, the entrance opens up to stairs leading to the crypt.
+
+
+### Cellar, Headmaster’s storage
+
+_____ Books. Ledgers with the school’s financials (it’s struggling, but staying afloat). School’s treasury (100 SP, 200GP) in a chest.
+
+
+## Crypt
+
+[dnd description]
+    You enter a stuffy, rectangular chamber. As your eyes adjust to the darkness around you, you pick up the outlines of what might be a sarcophagus at the end of the room. Your footsteps echo, and are soon joined by the rattling of bones...
+
+[image img/school-crypt.png]
+
+__**Creatures.**__ Three skeletons, one zombie and two crawling claws lay in wait. The noise from breaking down the wall to the crypt will have warned them.
+
+__**Sarcophagus.**__ This stone sarcophagus lies silent, and covered with dust. Cursory inspection reveals an inscription on the lid. It says: "A Truant Inmost" (which is an anagram of "Transmutation").
+
+If the players remove the lid they find the corpse of a man beneath a shield. This man is the same one seen in the mirror before. It looks like he was badly burnt.
+
+Embossed on the shield are two symbols (the alchemical symbols of lead and gold).
+
+__**Markings on the floor.**__ Inscribed into the stone tile are a collection of strange symbols. These are a variety of alchemical symbols. One of them is the symbol for lead. Another is the symbol for gold.
+
+When the players place the bin with lead on the symbol for lead, and an empty bin on the symbol for gold, the the empty bin will start filling with gold, causing the ground to crack and break open, and revealing a tunnel which leads to the reactor room.
+
+If the players have trouble solving the puzzle, they can ask the teachers for help. (Check the schedule to figure out where they might be.) Nienna can reveal to them that the inscription is an anagram (if she is in class, have her write it on the classroom board, and explain it with the help of her students). Wilven can explain what transmutation is (he will ask his favourite student to show off).
+
+
+## Hexagonal Chamber (the Reactor)
+
+[dnd description]
+    The walls of this perfectly hexagonal room have been charred by intense fire. Through the webbing, littering pretty much all available space, you can see the outlines of a pedestal. Before you can get much closer, though, fresh webbing reaches out to find you...
+
+[image img/school-hexagon.png]
+
+__**Creatures.**__ Two Swarm of Insects (Spiders), and one Giant Spider. The first character to enter the room gets webbed.
+
+__**Shattered Pedestal.**__ The remains of this pedestal are inscribed with the same archaic alchemical symbols seen in the crypt. Closer inspection will tell that something, probably some experiment in transmutation, went horribly wrong here and resulted in an intense blaze of fire cracking the pedestal and charring the room.
+
+__**Pit covered with broken bars.**__ In one corner of the room is a pit covered in iron bars, some of which have been bent forcibly at odd angles. You suspect this is how the spiders found their way in. 
+
+The bottom of the pit lies hidden in darkness. If the players manage to throw get some light all the way down to the bottom, they see something glimmering back at them. To try and get at this object will require bending the bars further (a successful DC 18 Strength check), and somehow making it down the tight, slippery pit (a succesful DC 20 Acrobatics or Athelitics check).
+
+__**Crystal d20.**__ This magic item lies in dirty water at the bottom of the pit. If rolled when the d20 is clear of colour (and somewhat luminescent) it shows a scene from the current location’s past, present of future. The scene as the d20 turns black. It takes 24 hours before it becomes clear again.
+
+
+
+
+## Characters
+
+### Alton Lindenbrook
+
+Headmaster Lindenbrook is a greying Halfling, who has been working at the School of Illumination all his life. He started out as teacher, but has long since taken on the arduous task of managing the school and keeping it afloat. Somehow he has managed to keep classes going.
+
+He is aware of the school's former history as a church to some kind of cult. But he has no idea that beneath the old chapel lies a crypt and trouble.
+
+[dnd statblock]
+    # Alton Lindenbrook
+
+    - Race: Halfling
+    - Gender: Male
+    - Alignment: Chaotic Neutral
+    
+    ________
+
+
+### Anne Lindenbrook
+
+Anne Lindenbrook teaches mathematics and physics at the school. She is the wife of the Headmaster, and as such something of an unofficial spokesperson while he is out.
+
+[dnd statblock]
+    # Anne Lindenbrook
+
+    - Race: Halfling
+    - Gender: Female
+    - Alignment: Lawful Good
+    
+    ________
+
+
+### Orin Rockseeker
+
+An ex-adventurer who settled down with his love, Gwynnip Copperfist, and their daughter, Elli.
+Together they maintain the "Marthammor's Du'Inn", an inn welcoming adventurers of all ilk in need of a warm meal, hearty ale, or a soft bed.
+
+[ statblock ]
+    # Orin Rockseeker
+
+    - Race: Dwarf
+    - Gender: Male
+    - Alignment: Lawful Neutral
+    - AC: 18 (Chain Mail and Shield)
+    - HP: 45 ([dnd roll 6d8+12])
+    - Speed: 25ft.
+    - STR: 14
+    - DEX: 8
+    - CON: 15
+    - INT: 10
+    - WIS: 18
+    - CHA: 12
+
+    __**Dwarven Resilience.**__ Orin has advantage on saving throws against poison, and resistance against poison damage.
+
+    ## Actions
+    
+    __**Multiattack.**__ Orin can make two attacks.
+
+    __**Warhammer.**__ __Melee Weapon Attack:__ +5 to hit, reach 5ft., one target. __Hit:__ 6 ([ roll 1d8+2 ]) bludgeoning damage.
+
+
+# References
+
+[ bibliography create ]
+
+[ cite book PHB ]
+  - Title: Player's Handbook, 5th edition
+  - Authors: Wizards RPG Team
+  - Publisher: Wizards of the Coast
+  - Publication date: August 19, 2014
+  - Pages: 320
+  - ISBN: 978-0-7869-4867-1
+
+[ cite book DMG ]
+  - Title: Dungeon Master's Guide, 5th edition
+  - Authors: Wizards RPG Team
+  - Publisher: Wizards of the Coast
+  - Publication date: December 9, 2014
+  - Pages: 320
+  - ISBN: 978-0-7869-6562-5
+
+[ cite book MM ]
+  - Title: Monster Manual, 5th edition
+  - Authors: Wizards RPG Team
+  - Publisher: Wizards of the Coast
+  - Publication date: September 30, 2014
+  - Pages: 352
+  - ISBN: 978-0-7869-6561-8
