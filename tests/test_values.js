@@ -132,10 +132,10 @@ requirejs([
     { kind: 'numbered-list-item', __text: ['oranges', 'orange ones']},
   ] })
   
-  accept(['- double: down'], V.DICTIONARY_ENTRY, { kind: 'dictionary-entry', key: 'double', __text: ['down'] })
-  accept(['- double : down'], V.DICTIONARY_ENTRY, { kind: 'dictionary-entry', key: 'double ', __text: ['down'] })
-  accept(['- double: '], V.DICTIONARY_ENTRY, { kind: 'dictionary-entry', key: 'double', __text: [] })
-  accept(['- double:'], V.DICTIONARY_ENTRY, { kind: 'dictionary-entry', key: 'double', __text: [] })
+  accept(['- double: down'], V.DICTIONARY_ENTRY, { kind: 'dictionary-entry', __key: 'double', __text: ['down'] })
+  accept(['- double : down'], V.DICTIONARY_ENTRY, { kind: 'dictionary-entry', __key: 'double ', __text: ['down'] })
+  accept(['- double: '], V.DICTIONARY_ENTRY, { kind: 'dictionary-entry', __key: 'double', __text: [] })
+  accept(['- double:'], V.DICTIONARY_ENTRY, { kind: 'dictionary-entry', __key: 'double', __text: [] })
   
   reject(['-double: down'], V.DICTIONARY_ENTRY)
   reject(['- double:down'], V.DICTIONARY_ENTRY)
@@ -144,8 +144,8 @@ requirejs([
     '- double: down',
     '- twice: the value'
   ], V.DICTIONARY, { kind: 'dictionary', items: [
-    { kind: 'dictionary-entry', key: 'double', __text: ['down'] },
-    { kind: 'dictionary-entry', key: 'twice', __text: ['the value'] },
+    { kind: 'dictionary-entry', __key: 'double', __text: ['down'] },
+    { kind: 'dictionary-entry', __key: 'twice', __text: ['the value'] },
   ]})
   
   accept(['| one | two | three |'], V.TABLE_ROW, { kind: 'row', items: [
@@ -222,16 +222,16 @@ requirejs([
   reject(['__'], V.PLACEHOLDER)
   
   
-  accept(['[fruit]'], V.INLINE_MACRO, { kind: 'macro', key: 'fruit', args: [] })
-  accept(['[ fruit ]'], V.INLINE_MACRO, { kind: 'macro', key: 'fruit', args: [] })
-  accept(['[ fruit apples oranges ]'], V.INLINE_MACRO, { kind: 'macro', key: 'fruit', args: [['apples'], ['oranges']] })
+  accept(['[fruit]'], V.INLINE_MACRO, { kind: 'macro', __key: 'fruit', args: [] })
+  accept(['[ fruit ]'], V.INLINE_MACRO, { kind: 'macro', __key: 'fruit', args: [] })
+  accept(['[ fruit apples oranges ]'], V.INLINE_MACRO, { kind: 'macro', __key: 'fruit', args: [['apples'], ['oranges']] })
   
   reject(['[]'], V.INLINE_MACRO)
   
   
-  accept(['[fruit]'], V.MACRO, { kind: 'macro', key: 'fruit', args: [] })
-  accept(['[ fruit ]'], V.MACRO, { kind: 'macro', key: 'fruit', args: [] })
-  accept(['[ fruit apples oranges ]'], V.MACRO, { kind: 'macro', key: 'fruit', args: [['apples'], ['oranges']] })
+  accept(['[fruit]'], V.MACRO, { kind: 'macro', __key: 'fruit', args: [] })
+  accept(['[ fruit ]'], V.MACRO, { kind: 'macro', __key: 'fruit', args: [] })
+  accept(['[ fruit apples oranges ]'], V.MACRO, { kind: 'macro', __key: 'fruit', args: [['apples'], ['oranges']] })
   
   reject(['[]'], V.MACRO)
   

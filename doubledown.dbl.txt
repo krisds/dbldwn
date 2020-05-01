@@ -527,6 +527,20 @@ Becomes:
     Nameless here for ~~never~~ evermore.
 
 
+### Inline code
+
+Any parts of text enclosed on either side by backticks (`\``) is considered
+to be inline code. For example:
+
+[code dbldwn]
+    > Nameless `here` for evermore.
+
+Becomes:
+
+[result]
+    Nameless `here` for evermore.
+
+
 ### Placeholders
 
 A sequence of three or more underscores (`\___`) is considered a placeholder. For
@@ -598,7 +612,7 @@ simple: __slots__.
 
 [code dbldwn]
     > | A Poem   | By              |
-    > | {{poem}} | Edgar Allen Poe |
+    > | {{poem}} | Edgar Allan Poe |
     > 
     >     - poem:
     >         Once upon a midnight dreary, while I pondered, weak and weary
@@ -617,7 +631,7 @@ Becomes:
 
 [result]
     | A Poem   | By              |
-    | {{poem}} | Edgar Allen Poe |
+    | {{poem}} | Edgar Allan Poe |
     
         - poem:
             Once upon a midnight dreary, while I pondered, weak and weary
@@ -637,7 +651,7 @@ Becomes:
 
 [code dbldwn]
     > | A Poem   | By              |
-    > | {{poem}} | Edgar Allen Poe |
+    > | {{poem}} | Edgar Allan Poe |
     > 
     >     - poem:
     >         * Ah, distinctly I remember it was in the bleak December;
@@ -651,7 +665,7 @@ Becomes:
 
 [result]
     | A Poem   | By              |
-    | {{poem}} | Edgar Allen Poe |
+    | {{poem}} | Edgar Allan Poe |
     
         - poem:
             * Ah, distinctly I remember it was in the bleak December;
@@ -666,7 +680,7 @@ Becomes:
 
 [code dbldwn]
     > | A Poem   | By              |
-    > | {{poem}} | Edgar Allen Poe |
+    > | {{poem}} | Edgar Allan Poe |
     > 
     >   - poem:
     >     | Ah, distinctly I remember        | it was in the bleak December;     |
@@ -680,7 +694,7 @@ Becomes:
 
 [result]
     | A Poem   | By              |
-    | {{poem}} | Edgar Allen Poe |
+    | {{poem}} | Edgar Allan Poe |
     
       - poem:
         | Ah, distinctly I remember        | it was in the bleak December;     |

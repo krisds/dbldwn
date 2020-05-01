@@ -146,10 +146,10 @@ requirejs(['lib/util/testing', 'lib/main'], function(TESTING, DD) {
     '- As: of some one gently rapping, rapping at my chamber door.',
   ], [
     { kind: 'dictionary', items: [
-      { kind: 'dictionary-entry', key: ['Once']},
-      { kind: 'dictionary-entry', key: ['Over']},
-      { kind: 'dictionary-entry', key: ['While']},
-      { kind: 'dictionary-entry', key: ['As']},
+      { kind: 'dictionary-entry', __key: 'Once' },
+      { kind: 'dictionary-entry', __key: 'Over' },
+      { kind: 'dictionary-entry', __key: 'While' },
+      { kind: 'dictionary-entry', __key: 'As' },
     ] },
   ])
 
@@ -163,10 +163,10 @@ requirejs(['lib/util/testing', 'lib/main'], function(TESTING, DD) {
     '- As: of some one gently rapping, rapping at my chamber door.',
   ], [
     { kind: 'dictionary', items: [
-      { kind: 'dictionary-entry', key: ['Once']},
-      { kind: 'dictionary-entry', key: ['Over']},
-      { kind: 'dictionary-entry', key: ['While']},
-      { kind: 'dictionary-entry', key: ['As']},
+      { kind: 'dictionary-entry', __key: 'Once' },
+      { kind: 'dictionary-entry', __key: 'Over' },
+      { kind: 'dictionary-entry', __key: 'While' },
+      { kind: 'dictionary-entry', __key: 'As' },
     ] },
   ])
 
@@ -209,10 +209,10 @@ requirejs(['lib/util/testing', 'lib/main'], function(TESTING, DD) {
     '      As of some one gently rapping, rapping at my chamber door.',
   ], [
     { kind: 'dictionary', items: [
-      { kind: 'dictionary-entry', key: ['Once'], children: [
+      { kind: 'dictionary-entry', __key: 'Once', children: [
         { kind: 'paragraph' },
       ] },
-      { kind: 'dictionary-entry', key: ['While'], children: [
+      { kind: 'dictionary-entry', __key: 'While', children: [
         { kind: 'paragraph' },
       ] },
     ] },
@@ -314,12 +314,12 @@ requirejs(['lib/util/testing', 'lib/main'], function(TESTING, DD) {
     '    Nameless here for evermore.',
   ], [
     { kind: 'dictionary', items: [
-      { kind: 'dictionary-entry', key: ['Once'], children: [
+      { kind: 'dictionary-entry', __key: 'Once', children: [
         { kind: 'paragraph' },
         { kind: 'paragraph' },
         { kind: 'paragraph' },
       ] },
-      { kind: 'dictionary-entry', key: ['Ah'], children: [
+      { kind: 'dictionary-entry', __key: 'Ah', children: [
         { kind: 'paragraph' },
         { kind: 'paragraph' },
         { kind: 'paragraph' },
@@ -361,7 +361,7 @@ requirejs(['lib/util/testing', 'lib/main'], function(TESTING, DD) {
     '<<The Raven>>[by Poe]',
   ], [
     { kind: 'paragraph', text: [
-      { kind: 'macro', key: ['by'], args: [['Poe']], text: [
+      { kind: 'macro', __key: 'by', args: [['Poe']], text: [
         { kind: 'selection', __text: ['The Raven'] },
       ] },
     ] },
@@ -371,8 +371,8 @@ requirejs(['lib/util/testing', 'lib/main'], function(TESTING, DD) {
     '<<The Raven>>[by Poe][link POE]',
   ], [
     { kind: 'paragraph', text: [
-      { kind: 'macro', key: 'link', args: [['POE']], text: [
-        { kind: 'macro', key: 'by', args: [['Poe']], text: [
+      { kind: 'macro', __key: 'link', args: [['POE']], text: [
+        { kind: 'macro', __key: 'by', args: [['Poe']], text: [
           { kind: 'selection', __text: ['The Raven'] },
         ] },
       ] },
@@ -388,13 +388,13 @@ requirejs(['lib/util/testing', 'lib/main'], function(TESTING, DD) {
     '    | As of some one gently rapping, | rapping at my chamber door. |',
   ], [
     { kind: 'dictionary', items: [
-      { kind: 'dictionary-entry', key:['First'], children: [
+      { kind: 'dictionary-entry', __key: 'First', children: [
         { kind: 'list', items: [
           { kind: 'list-item' },
           { kind: 'list-item' },
         ] },
       ] },
-      { kind: 'dictionary-entry', key:['Second'], children: [
+      { kind: 'dictionary-entry', __key: 'Second', children: [
         { kind: 'table', items: [
           { kind: 'row', items: [
             { kind: 'cell' },
@@ -460,13 +460,13 @@ requirejs(['lib/util/testing', 'lib/main'], function(TESTING, DD) {
       ],
       children: [
         { kind: 'dictionary', items: [
-          { kind: 'dictionary-entry', key:['list'], children: [
+          { kind: 'dictionary-entry', __key: 'list', children: [
             { kind: 'list', items: [
               { kind: 'list-item' },
               { kind: 'list-item' },
             ] },
           ] },
-          { kind: 'dictionary-entry', key:['other table'], children: [
+          { kind: 'dictionary-entry', __key: 'other table', children: [
             { kind: 'table', items: [
               { kind: 'row', items: [
                 { kind: 'cell' },
@@ -488,7 +488,7 @@ requirejs(['lib/util/testing', 'lib/main'], function(TESTING, DD) {
   ], [
     { kind: 'list', items: [
       { kind: 'list-item', text: [
-        { kind: 'macro', key: ['by'], args: [['Poe']], text: [
+        { kind: 'macro', __key: 'by', args: [['Poe']], text: [
           { kind: 'selection', __text: ['The Raven'] },
         ] },
       ] },

@@ -89,7 +89,7 @@ requirejs(['lib/util/args'], function(ARGS) {
   reject('title <- ', TITLE, [], {})
   
   reject('title <- $ $', TITLE,
-    [['The', ' ', 'Raven'], ['Edgar', ' ', 'Allen', ' ', 'Poe']],
+    [['The', ' ', 'Raven'], ['Edgar', ' ', 'Allan', ' ', 'Poe']],
     { title: 'The Raven' }
   )
 
@@ -97,8 +97,8 @@ requirejs(['lib/util/args'], function(ARGS) {
   let TITLE_AUTHOR = ARGS.define().param('title').param('author')
   
   accept('title, author <- $ $', TITLE_AUTHOR,
-    [['The', ' ', 'Raven'], ['Edgar', ' ', 'Allen', ' ', 'Poe']],
-    { title: 'The Raven', author: 'Edgar Allen Poe' }
+    [['The', ' ', 'Raven'], ['Edgar', ' ', 'Allan', ' ', 'Poe']],
+    { title: 'The Raven', author: 'Edgar Allan Poe' }
   )
 
   reject('title, author <- $', TITLE_AUTHOR,
@@ -107,8 +107,8 @@ requirejs(['lib/util/args'], function(ARGS) {
   )
 
   reject('title, author <- $ $ $', TITLE_AUTHOR,
-    [['The', ' ', 'Raven'], ['Edgar', ' ', 'Allen', ' ', 'Poe'], ['1845']],
-    { title: 'The Raven', author: 'Edgar Allen Poe' }
+    [['The', ' ', 'Raven'], ['Edgar', ' ', 'Allan', ' ', 'Poe'], ['1845']],
+    { title: 'The Raven', author: 'Edgar Allan Poe' }
   )
   
   
@@ -120,13 +120,13 @@ requirejs(['lib/util/args'], function(ARGS) {
   )
   
   accept('names+ <- $ $', NAMES,
-    [['Edgar'], ['Allen']],
-    { names: ['Edgar', 'Allen'] }
+    [['Edgar'], ['Allan']],
+    { names: ['Edgar', 'Allan'] }
   )
   
   accept('names+ <- $ $ $', NAMES,
-    [['Edgar'], ['Allen'], ['Poe']],
-    { names: ['Edgar', 'Allen', 'Poe'] }
+    [['Edgar'], ['Allan'], ['Poe']],
+    { names: ['Edgar', 'Allan', 'Poe'] }
   )
   
   reject('names+ <- ', NAMES, [], {})
@@ -140,13 +140,13 @@ requirejs(['lib/util/args'], function(ARGS) {
   )
   
   accept('title names+ <- $ $ $', TITLE_NAMES,
-    [['The', ' ', 'Raven'], ['Edgar'], ['Allen']],
-    { title: 'The Raven', names: ['Edgar', 'Allen'] }
+    [['The', ' ', 'Raven'], ['Edgar'], ['Allan']],
+    { title: 'The Raven', names: ['Edgar', 'Allan'] }
   )
 
   accept('title names+ <- $ $ $ $', TITLE_NAMES,
-    [['The', ' ', 'Raven'], ['Edgar'], ['Allen'], ['Poe']],
-    { title: 'The Raven', names: ['Edgar', 'Allen', 'Poe'] }
+    [['The', ' ', 'Raven'], ['Edgar'], ['Allan'], ['Poe']],
+    { title: 'The Raven', names: ['Edgar', 'Allan', 'Poe'] }
   )
 
   reject('title names+ <- $', TITLE_NAMES,

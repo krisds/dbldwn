@@ -350,7 +350,7 @@ requirejs([
   ], [
     { kind: 'paragraph', text: [
       { kind: 'selection' },
-      { kind: 'macro', key: ['by'], args: [['Poe']]},
+      { kind: 'macro', __key: 'by', args: [['Poe']]},
     ] },
   ])
   
@@ -359,8 +359,8 @@ requirejs([
   ], [
     { kind: 'paragraph', text: [
       { kind: 'selection' },
-      { kind: 'macro', key: 'by', args: [['Poe']] },
-      { kind: 'macro', key: 'link', args: [['POE']] },
+      { kind: 'macro', __key: 'by', args: [['Poe']] },
+      { kind: 'macro', __key: 'link', args: [['POE']] },
     ] },
   ])
 
@@ -373,7 +373,7 @@ requirejs([
     '    | As of some one gently rapping, | rapping at my chamber door. |',
   ], [
     { kind: 'dictionary', items: [
-      { kind: 'dictionary-entry', key:['First'], children: [
+      { kind: 'dictionary-entry', __key: 'First', children: [
         { kind: 'list', items: [
           { kind: 'list-item' },
           { kind: 'list-item' },
@@ -381,7 +381,7 @@ requirejs([
       ] },
     ] },
     { kind: 'dictionary', items: [
-      { kind: 'dictionary-entry', key:['Second'], children: [
+      { kind: 'dictionary-entry', __key: 'Second', children: [
         { kind: 'table', items: [
           { kind: 'row', items: [
             { kind: 'cell' },

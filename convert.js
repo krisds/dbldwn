@@ -9,7 +9,7 @@ const fs = require('fs')
 const path = require('path')
 const yargs = require('yargs')
 
-requirejs(['lib/passes/main', 'lib/passes/util'], function(PASSES, UTIL) {
+requirejs(['lib/conversion/main', 'lib/conversion/util'], function(CONVERSION, UTIL) {
   
   const VERSION = require('./package.json').version
   const TITLE = '# <<DoubleDown ' + VERSION + '>>[link https://github.com/krisds/dbldwn]'
@@ -68,8 +68,8 @@ requirejs(['lib/passes/main', 'lib/passes/util'], function(PASSES, UTIL) {
   console.log('Writing to: ' + output_path)
   console.log('Using encoding: ' + encoding)
 
-  PASSES.process(
-    UTIL.context(
+  CONVERSION.process(
+    CONVERSION.context(
       process.cwd(),
       input_path,
       encoding,
