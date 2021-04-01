@@ -66,7 +66,7 @@ up an individual block.
 [definition]
     A block is a sequence of one or more lines.
     Any two lines in a document are part of the same block, **unless**:
-    
+
     * they are __separated by a blank line__, or
     * they are __indented differently__.
 
@@ -351,8 +351,6 @@ Becomes:
             >     return fibonacci(n - 1) + fibonacci(n - 2);
             > }
 
-//// TODO Multi-line list items. HOW ?
-
 
 
 ### Tables
@@ -386,10 +384,6 @@ considered to be part of the same table. For example:
 
 Despite being three distinct table blocks, DoubleDown will treat this as just a
 single table.
-
-//// TODO Tables with complex content.
-//// TODO Nested tables.
-
 
 
 ### Dictionaries
@@ -599,18 +593,18 @@ simple: __slots__.
 [code dbldwn]
     > | A Poem   | By              |
     > | {{poem}} | Edgar Allen Poe |
-    > 
+    >
     >     - poem:
     >         Once upon a midnight dreary, while I pondered, weak and weary
-    >         
+    >
     >         Over many a quaint and curious volume of forgotten lore -
-    >         
+    >
     >         While I nodded, nearly napping, suddenly there came a tapping,
-    >         
+    >
     >         As of some one gently rapping, rapping at my chamber door.
-    >         
+    >
     >         "'Tis some visiter," I muttered, "tapping at my chamber door -
-    >         
+    >
     >         Only this and nothing more."
 
 Becomes:
@@ -618,18 +612,18 @@ Becomes:
 [result]
     | A Poem   | By              |
     | {{poem}} | Edgar Allen Poe |
-    
+
         - poem:
             Once upon a midnight dreary, while I pondered, weak and weary
-            
+
             Over many a quaint and curious volume of forgotten lore -
-            
+
             While I nodded, nearly napping, suddenly there came a tapping,
-            
+
             As of some one gently rapping, rapping at my chamber door.
-            
+
             "'Tis some visiter," I muttered, "tapping at my chamber door -
-            
+
             Only this and nothing more."
 
 
@@ -638,7 +632,7 @@ Becomes:
 [code dbldwn]
     > | A Poem   | By              |
     > | {{poem}} | Edgar Allen Poe |
-    > 
+    >
     >     - poem:
     >         * Ah, distinctly I remember it was in the bleak December;
     >         * And each separate dying ember wrought its ghost upon the floor.
@@ -652,7 +646,7 @@ Becomes:
 [result]
     | A Poem   | By              |
     | {{poem}} | Edgar Allen Poe |
-    
+
         - poem:
             * Ah, distinctly I remember it was in the bleak December;
             * And each separate dying ember wrought its ghost upon the floor.
@@ -667,7 +661,7 @@ Becomes:
 [code dbldwn]
     > | A Poem   | By              |
     > | {{poem}} | Edgar Allen Poe |
-    > 
+    >
     >   - poem:
     >     | Ah, distinctly I remember        | it was in the bleak December;     |
     >     | And each separate dying ember    | wrought its ghost upon the floor. |
@@ -681,7 +675,7 @@ Becomes:
 [result]
     | A Poem   | By              |
     | {{poem}} | Edgar Allen Poe |
-    
+
       - poem:
         | Ah, distinctly I remember        | it was in the bleak December;     |
         | And each separate dying ember    | wrought its ghost upon the floor. |
@@ -714,17 +708,17 @@ The first value (which is required) is the macro's name.
 
 What a macro applies to depends on where the macro appears in the text.
 
-* If a macro appears as the sole element in a block, then it applies to any 
+* If a macro appears as the sole element in a block, then it applies to any
 blocks nested below that one. For example:
 
     [code dbldwn]
         > [code dbldwn]
         >     > * Apples
         >     > * Oranges
-    
+
     Here the macro `code` (with argument `dbldwn`) would apply to the list block
     nested below it.
-    
+
     If there are no nested blocks, it is assumed that the macro can do its work
     without any.
 
@@ -734,9 +728,9 @@ blocks nested below that one. For example:
     [code dbldwn]
         > More on <<the author of the Raven>>[link TheRaven]
         > can easily be found online.
-    
+
     Here the macro `link` applies to the text "the author of the Raven".
-    
+
     If there is no selection, it is assumed that the macro can do its work without
     one.
 
@@ -762,14 +756,14 @@ We could reference that file from another, as in the following example:
 
 [code dbldwn]
     > # The Raven
-    > 
+    >
     >   [include the_raven.dbl.txt]
 
 This would be equivalent to:
 
 [code dbldwn]
     > # The Raven
-    > 
+    >
     >   Once upon a midnight dreary, while I pondered, weak and weary,
     >   Over many a quaint and curious volume of forgotten lore—
     >   While I nodded, nearly napping, suddenly there came a tapping,
@@ -835,4 +829,3 @@ If you need a backslash in your document, just escape it:
 
 [code dbldwn]
     > \\\\
-
